@@ -30,8 +30,12 @@ def synthesize():
 
         # Restore parameters
         var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'Text2Mel')
+        #saver1 = tf.train.Saver(var_list=var_list)
+        #saver1.restore(sess, tf.train.latest_checkpoint(hp.logdir + "-1"))
+
         saver1 = tf.train.Saver(var_list=var_list)
-        saver1.restore(sess, tf.train.latest_checkpoint(hp.logdir + "-1"))
+        saver1.restore(sess, r'E:\Projects\TextToSpeech\logdir\Bolsonaro-1\model_gs_269k')
+
         print("Text2Mel Restored!")
 
         var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'SSRN') + \

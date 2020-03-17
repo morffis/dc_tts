@@ -43,9 +43,9 @@ def load_data(mode="train"):
             # Parse
             fpaths, text_lengths, texts = [], [], []
             transcript = os.path.join(hp.data, 'transcript.csv')
-            lines = codecs.open(transcript, 'r', 'utf-8').readlines()
+            lines = codecs.open(transcript, 'r').readlines()
             for line in lines:
-                fname, _, text = line.strip().split("|")
+                fname, text = line.strip().split("|")
 
                 fpath = os.path.join(hp.data, "wavs", fname + ".wav")
                 fpaths.append(fpath)
@@ -60,16 +60,14 @@ def load_data(mode="train"):
             # Parse
             fpaths, text_lengths, texts = [], [], []
             transcript = os.path.join(hp.data, 'transcript.csv')
-            lines = codecs.open(transcript, 'r', 'utf-8').readlines()
+            lines = codecs.open(transcript, 'r').readlines()
             for line in lines:
-                fname, _, text, is_inside_quotes, duration = line.strip().split("|")
-                duration = float(duration)
-                if duration > 10. : continue
+                fname, text = line.strip().split("|")
 
-                fpath = os.path.join(hp.data, fname)
+                fpath = os.path.join(rf'{hp.data}\wavs', fname+'.wav')
                 fpaths.append(fpath)
 
-                text += "E"  # E: EOS
+                text = text_normalize(text) + "E"  # E: EOS
                 text = [char2idx[char] for char in text]
                 text_lengths.append(len(text))
                 texts.append(np.array(text, np.int32).tostring())
@@ -78,7 +76,7 @@ def load_data(mode="train"):
 
     else: # synthesize on unseen test text.
         # Parse
-        lines = codecs.open(hp.test_data, 'r', 'utf-8').readlines()[1:]
+        lines = codecs.open(hp.test_data, 'r').readlines()[1:]
         sents = [text_normalize(line.split(" ", 1)[-1]).strip() + "E" for line in lines] # text normalization, E: EOS
         texts = np.zeros((len(sents), hp.max_N), np.int32)
         for i, sent in enumerate(sents):
@@ -128,5 +126,6 @@ def get_batch():
                                             capacity=hp.B*4,
                                             dynamic_pad=True)
 
-    return texts, mels, mags, fnames, num_batch
+        print('Finished getting batches!')
 
+    return texts, mels, mags, fnames, num_batch

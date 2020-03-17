@@ -160,4 +160,3 @@ def load_spectrograms(fpath):
     # Reduction
     mel = mel[::hp.r, :]
     return fname, mel, mag
-
