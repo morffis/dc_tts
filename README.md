@@ -1,6 +1,6 @@
 # A TensorFlow Implementation of DC-TTS: yet another text-to-speech model
 
-This project was all about understading the technologies and algorithms of the original author [Kyubyong] (https://github.com/Kyubyong/dc_tts).
+This project was all about understading the technologies and algorithms of the original author [Kyubyong](https://github.com/Kyubyong/dc_tts).
 
 I've tried to adapt the original project that uses a female english (british) dataset in order to replicate the voices of Nick Kate Winslet's Audiobook to a replicate of a male portuguese dataset of president Jair Bolsonaro.
 
